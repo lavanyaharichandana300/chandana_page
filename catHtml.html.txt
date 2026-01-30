@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahul & Chandana 🐱💖</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:"Comic Sans MS", monospace;
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh;
+  background:linear-gradient(180deg,#ffeaf3,#f0f8ff);
+  transition:background 0.4s; overflow:hidden;
+}
+body.dark { background:linear-gradient(180deg,#1e1e2f,#2b2b45); color:#f5f5f5; }
+
+.card {
+  width:95%; max-width:480px;
+  background:white; border-radius:22px; padding:25px;
+  text-align:center; box-shadow:0 20px 35px rgba(0,0,0,0.15);
+  animation:pop 0.6s ease;
+}
+body.dark .card { background:#2a2a3d; color:#f5f5f5; }
+
+@keyframes pop { from{transform:scale(0.9);opacity:0;} to{transform:scale(1);opacity:1;} }
+h1,h2 { color:#ff69b4; }
+body.dark h1,h2 { color:#ffb6d5; }
+
+button {
+  width:100%; padding:12px; margin:8px 0;
+  border-radius:14px; border:none; font-size:16px; cursor:pointer;
+  background:#ffb6d5; transition:transform 0.2s; position:relative;
+}
+button:hover { transform:scale(1.05); }
+.secondary { background:#e0f2ff; }
+body.dark .secondary { background:#ff8cc6; color:#1a1a1a; }
+
+pre { font-size:22px; cursor:pointer; line-height:1.2; }
+.tail { display:inline-block; animation:wag 0.6s infinite alternate; }
+@keyframes wag { to { transform:translateX(6px); } }
+
+.heart,.sparkle {
+  position:fixed; bottom:0; animation:float 2s linear forwards; pointer-events:none; font-size:20px;
+}
+@keyframes float { to { transform:translateY(-120vh); opacity:0; } }
+
+.top-bar { display:flex; justify-content:space-between; margin-bottom:10px; }
+.tiny { font-size:12px; opacity:0.7; }
+
+.section { display:none; }
+.cat-eyes { display:inline-block; animation:blink 4s infinite; }
+@keyframes blink { 0%,92%,100%{opacity:1;} 94%,96%{opacity:0;} }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="top-bar">
+    <button class="secondary" id="themeBtn">🌙 / ☀️</button>
+    <span class="tiny">tap the cats 🐾</span>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div id="p1" class="section">
+    <h1>Hiii Rahul 🐱</h1>
+    <h2>Do you like Chandana? 💖</h2>
+    <button id="yesBtn">Yes 😍</button>
+    <button id="noBtn" class="secondary">No 😐</button>
+  </div>
+
+  <!-- PAGE 2: YES -->
+  <div id="p2" class="section">
+    <h2>YAYYY Rahul! 🥰</h2>
+    <pre id="cat1">
+ /\_/\    /\_/\  
+( <span class="cat-eyes">^.^</span> ) ( <span class="cat-eyes">^.^</span> )  
+ >  <span class="tail">^</span> <   >  <span class="tail">^</span> <  
+    </pre>
+    <h2>Chandana sends you a big virtual hug! 🤗💖</h2>
+    <button id="restartBtn1">🔄 Play Again</button>
+  </div>
+
+  <!-- PAGE 3: NO -->
+  <div id="p3" class="section">
+    <h2>Oh no… Chandana is sad 😢</h2>
+    <pre>
+ /\_/\    /\_/\  
+( T.T )  ( T.T )  
+ >  ^  <   >  ^  <  
+    </pre>
+    <h2>She will try her best anyway 💕</h2>
+    <button id="restartBtn2">Try Again 🔄</button>
+  </div>
+
+</div>
+
+<script>
+// --- Navigation ---
+function go(id){
+  document.querySelectorAll('.section').forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+// --- Buttons ---
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const restartBtn1=document.getElementById("restartBtn1");
+const restartBtn2=document.getElementById("restartBtn2");
+const themeBtn=document.getElementById("themeBtn");
+
+yesBtn.addEventListener("click",()=>{ go('p2'); createHearts(); continuousSparkles(); });
+restartBtn1.addEventListener("click",()=>{ go('p1'); });
+restartBtn2.addEventListener("click",()=>{ go('p1'); });
+themeBtn.addEventListener("click",()=>{ document.body.classList.toggle("dark"); });
+
+// --- Hearts & Sparkles ---
+function createHearts(){
+  for(let i=0;i<12;i++){
+    const h=document.createElement("div"); h.className="heart"; h.innerText="💖";
+    h.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),2000);
+  }
+}
+
+function continuousSparkles(){
+  for(let i=0;i<20;i++){
+    const s=document.createElement("div"); s.className="sparkle";
+    s.innerText=["💖","✨","🌸","🌟"][Math.floor(Math.random()*4)];
+    s.style.left=Math.random()*window.innerWidth+"px";
+    s.style.fontSize=(10+Math.random()*30)+"px";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),4000);
+  }
+}
+
+// --- Secret Easter Egg ---
+let tapCount=0; let tapTimeout;
+document.getElementById("cat1").addEventListener("click",()=>{
+  tapCount++;
+  clearTimeout(tapTimeout);
+  if(tapCount>=5){
+    for(let i=0;i<40;i++){
+      const s=document.createElement("div"); s.className="sparkle";
+      s.innerText=["🎉","✨","💥","🌟","💖"][Math.floor(Math.random()*5)];
+      s.style.left=Math.random()*window.innerWidth+"px";
+      s.style.fontSize=(15+Math.random()*35)+"px";
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),3000);
+    }
+    alert("🎊 Secret Cat Party! Rahul, Chandana loves you! 🎊");
+    tapCount=0; return;
+  }
+  tapTimeout=setTimeout(()=>tapCount=0,1500);
+});
+
+// --- NO button runaway ---
+let noClicks=0;
+noBtn.addEventListener("mouseenter",()=>{
+  noClicks++;
+  if(noClicks<=5){
+    const x=Math.random()*60-30;
+    const y=Math.random()*40-20;
+    noBtn.style.transform=`translate(${x}px,${y}px)`;
+  } else {
+    noBtn.style.transform=`translate(0,0)`;
+    go('p3');
+  }
+});
+
+// --- Start ---
+go('p1');
+</script>
+
+</body>
+</html>
